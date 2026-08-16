@@ -123,6 +123,9 @@
 		<str id="songOffset-name">Song Offset</str>
 		<str id="songOffset-desc">Changes the offset that songs should start with.</str>
 
+		<str id="songScrollSpeed-name">Scroll Speed</str>
+		<str id="songScrollSpeed-desc">Changes songs scroll speed (0 = song default)</str>
+
 		<group name="GameplayOptionsAdvanced" prefix="Advanced.">
 			<str id="windowSize-name">Window Size</str>
 			<str id="windowSize-desc">...</str>
