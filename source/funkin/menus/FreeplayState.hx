@@ -299,6 +299,7 @@ class FreeplayState extends MusicBeatState
 		{
 			CoolUtil.playMenuSFX(CANCEL, 0.7);
 			FlxG.switchState(new MainMenuState());
+			CoolUtil.playMenuSong(true);
 		}
 
 		#if sys
