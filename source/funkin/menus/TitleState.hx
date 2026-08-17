@@ -30,6 +30,8 @@ class TitleState extends MusicBeatState
 
 		MusicBeatState.skipTransIn = true;
 
+		trace('this is the titlestate');
+
 		startIntro();
 
 		super.create();
