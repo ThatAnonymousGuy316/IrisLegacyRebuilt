@@ -17,8 +17,8 @@ class CharterSelection extends EditorTreeMenu {
 		DiscordUtil.call("onEditorTreeLoaded", ["Chart Editor"]);
 		addMenu(new CharterSelectionScreen());
 		bgType = 'charter';
-		
-		CoolUtil.playMenuSong(true);
+
+		CoolUtil.playMusic (true);
 	}
 }
 

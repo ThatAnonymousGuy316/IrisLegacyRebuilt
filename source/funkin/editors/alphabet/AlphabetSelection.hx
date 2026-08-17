@@ -13,6 +13,8 @@ class AlphabetSelection extends EditorTreeMenu {
 		super.create();
 		DiscordUtil.call("onEditorTreeLoaded", ["Alphabet Editor"]);
 		addMenu(new AlphabetSelectionScreen());
+
+	
 	}
 }
 
@@ -20,7 +22,9 @@ class AlphabetSelectionScreen extends EditorTreeMenuScreen {
 	public function new() {
 		super('editor.alphabet.name', 'editor.alphabet.selection.desc', 'editor.alphabet.selection.', 'newTypeface', 'newTypefaceDesc', () -> {
 			parent.openSubState(new UIWarningSubstate(translate('warnings.notImplemented-title'), translate('warnings.notImplemented-body'), [
-				{label: TU.translate("editor.ok"), color: 0xFFFF0000, onClick: (t) -> {}}
+				{label: TU.translate("editor.ok"), color: 0xFFFAFAFA, onClick: (t) -> {}}
+
+				
 			]));
 		});
 

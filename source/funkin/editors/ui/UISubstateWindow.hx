@@ -18,6 +18,7 @@ class UISubstateWindow extends MusicBeatSubstate {
 			noiseTexture.wrap = REPEAT;
 			var noiseTextureSize:ShaderParameter<Float> = _.data.noiseTextureSize;
 			noiseTextureSize.value = [noiseTexture.input.width, noiseTexture.input.height];
+			
 		}
 		_;
 	};
@@ -83,6 +84,8 @@ class UISubstateWindow extends MusicBeatSubstate {
 
 		FlxTween.tween(camera, {alpha: 1}, 0.25, {ease: FlxEase.cubeOut});
 		FlxTween.tween(camera, {zoom: 1}, 0.66, {ease: FlxEase.elasticOut});
+
+		trace('this is the warning shit you need to edit yo :sob:');
 	}
 
 	public override function destroy() {

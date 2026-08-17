@@ -83,7 +83,7 @@ class UIWarningSubstate extends MusicBeatSubstate {
 
 		spr.x = (FlxG.width - spr.bWidth) / 2;
 		spr.y = (FlxG.height - spr.bHeight) / 2;
-		spr.color = isError ? 0xFFFF0000 : 0xFFFFFF00;
+		spr.color = isError ? 0xFFFFFBFB : 0xFFFFFF00;
 		add(spr);
 
 		if(title != null) {
