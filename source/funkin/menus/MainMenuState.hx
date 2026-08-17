@@ -36,9 +36,11 @@ class MainMenuState extends MusicBeatState
 
 		DiscordUtil.call("onMenuLoaded", ["Main Menu"]);
 
+		trace('this is the MainMenuState');
+
 		CoolUtil.playMenuSong();
 
-		bg = new FlxSprite(-80).loadAnimatedGraphic(Paths.image('menus/menuBG'));
+		bg = new FlxSprite(-80).loadAnimatedGraphic(Paths.image('menus/menuBGBlue'));
 		add(bg);
 
 		camFollow = new FlxObject(0, 0, 1, 1);
@@ -46,7 +48,7 @@ class MainMenuState extends MusicBeatState
 
 		magenta = new FlxSprite(-80).loadAnimatedGraphic(Paths.image('menus/menuDesat'));
 		magenta.visible = false;
-		magenta.color = 0xFFfd719b;
+		magenta.color = 0xffae00ff;
 		add(magenta);
 
 		for(bg in [bg, magenta]) {
