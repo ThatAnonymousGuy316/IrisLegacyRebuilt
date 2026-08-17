@@ -15,6 +15,7 @@ import funkin.editors.charter.Charter;
 import funkin.menus.StoryMenuState;
 import funkin.options.OptionsMenu;
 import funkin.options.keybinds.KeybindsOptions;
+import funkin.backend.scripting.ModState;
 
 class PauseSubState extends MusicBeatSubstate
 {
@@ -56,7 +57,7 @@ class PauseSubState extends MusicBeatSubstate
 
 		add(parentDisabler = new FunkinParentDisabler());
 
-		pauseScript = Script.create(Paths.script(script));
+		pauseScript = Script.create(Paths.script(PauseSubstate));
 		pauseScript.setParent(this);
 		pauseScript.load();
 
