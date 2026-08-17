@@ -142,6 +142,7 @@
 	<haxelib name="hxdiscord_rpc" if="DISCORD_RPC"/>
 	<haxelib name="markdown" />
 	<haxelib name="hxcpp-debug-server" if="TEST_BUILD debug" />
+	<haxelib name="hxWindowColorMode"/>
 
 	<!-- _____________________________ Path Settings ____________________________ -->
 
@@ -151,7 +152,7 @@
 	<set name="BUILD_DIR" value="export/release-32bit" if="32bit" unless="debug" />
 	<set name="BUILD_DIR" value="latest/" if="beta" />
 
-	<source name="source" />
+	<source name="hahaha stupid" />
 
 	<define name="PRELOAD_ALL" unless="web" />
 	<define name="NO_PRELOAD_ALL" unless="PRELOAD_ALL"/>

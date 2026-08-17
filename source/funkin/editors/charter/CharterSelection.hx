@@ -18,7 +18,7 @@ class CharterSelection extends EditorTreeMenu {
 		addMenu(new CharterSelectionScreen());
 		bgType = 'charter';
 
-		CoolUtil.playMusic (true);
+		CoolUtil.playMenuSong(true);
 	}
 }
 
