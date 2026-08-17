@@ -51,7 +51,7 @@ final class CrashHandler {
 		e.stopPropagation();
 		e.stopImmediatePropagation();
 
-		NativeAPI.showMessageBox("Codename Engine Crash Handler", 'Uncaught Error:$m\n\n$stackLabel', MSG_ERROR);
+		NativeAPI.showMessageBox("Diddy touches me at night pls help :cold_sweat:", 'Uh Oh Stinkyy:$m\n\n$stackLabel', MSG_ERROR);
 		#if sys
 		Sys.exit(1);
 		#end
