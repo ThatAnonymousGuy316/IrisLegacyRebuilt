@@ -446,6 +446,28 @@ final class CoolUtil
 		}
 	}
 
+	@:noUsing public static function playEditorSong(fadeIn:Bool = false) {
+		if (FlxG.sound.music == null || !FlxG.sound.music.playing) {
+			playMusic(Paths.music("EditorMenu"), true, fadeIn ? 0 : 1, true, 102);
+			if (fadeIn) FlxG.sound.music.fadeIn(4, 0, 1);
+		}
+	}
+
+	/* 	IF YOU WANT A CUSTOM SONG TO PLAY USING CoolUtil.playblahblah
+	THEN USE THIS TEMPLATE!!
+
+	@:noUsing public static function playIrisSong(fadeIn:Bool = false) {
+		if (FlxG.sound.music == null || !FlxG.sound.music.playing) {
+			playMusic(Paths.music("IrisDiddy"), true, fadeIn ? 0 : 1, true, 102);
+			if (fadeIn) FlxG.sound.music.fadeIn(4, 0, 1);
+		}
+	}
+
+	use this to apply it 
+			 | this plays the song above
+			 			 | true just means if you want it to fade in or not :blush:
+	CoolUtil.playIrisSong(true);
+
 	/**
 	 * Preloads a character.
 	 * @param name Character name

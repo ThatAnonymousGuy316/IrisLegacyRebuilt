@@ -63,6 +63,8 @@ class CharacterEditor extends UIState {
 	public function new(character:String) {
 		super();
 		if (character != null) __character = character;
+		CoolUtil.playEditorSong();
+
 	}
 
 	inline function translate(id:String, ?args:Array<Dynamic>)
