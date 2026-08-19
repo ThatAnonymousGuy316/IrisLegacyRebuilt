@@ -30,7 +30,13 @@ import android.os.Build;
 #end
 
 #if (cpp && windows)
-@:headerCode('
+@:cppFileCode('
+    #ifndef WIN32_LEAN_AND_MEAN
+    #define WIN32_LEAN_AND_MEAN
+    #endif
+    #ifndef NOMINMAX
+    #define NOMINMAX
+    #endif
     #include <windows.h>
     #include <dwmapi.h>
     #pragma comment(lib, "dwmapi.lib")
@@ -159,11 +165,6 @@ class Main extends Sprite
 		initTransition();
 	}
 
-	/**
-	 * Calculates average color from non-transparent pixels in an icon BitmapData
-	 * and applies it to the Windows title bar.
-	 * @param bitmap The icon's BitmapData object.
-	 */
 	public static function setWindowColorFromIcon(bitmap:BitmapData):Void
 	{
 		#if (cpp && windows)
@@ -174,7 +175,6 @@ class Main extends Sprite
 		var totalB:Float = 0;
 		var count:Int = 0;
 
-		// Calculate average RGB values across non-transparent pixels
 		for (x in 0...bitmap.width)
 		{
 			for (y in 0...bitmap.height)
@@ -198,12 +198,10 @@ class Main extends Sprite
 			var avgG:Int = Std.int(totalG / count);
 			var avgB:Int = Std.int(totalB / count);
 
-			// Direct native C++ call to update title bar color on Windows
 			untyped __cpp__('
 				HWND hwnd = GetActiveWindow();
 				if (hwnd != NULL) {
 					COLORREF color = RGB({0}, {1}, {2});
-					// 35 corresponds to DWMWA_CAPTION_COLOR in Windows 11 DWM API
 					DwmSetWindowAttribute(hwnd, 35, &color, sizeof(color));
 				}
 			', avgR, avgG, avgB);
