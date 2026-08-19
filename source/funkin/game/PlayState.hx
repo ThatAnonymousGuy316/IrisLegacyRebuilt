@@ -1917,8 +1917,6 @@ class PlayState extends MusicBeatState
 		songScore += event.score;
 		misses += event.misses;
 
-		if (event.playMissSound) FlxG.sound.play(event.missSound, event.missVolume);
-
 		if (event.muteVocals) {
 			vocals.volume = 0;
 			strumLine.vocals.volume = 0;
