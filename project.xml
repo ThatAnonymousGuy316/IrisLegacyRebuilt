@@ -2,18 +2,18 @@
 <project>
 	<!-- _________________________ Application Settings _________________________ -->
 	<app
-		title="Friday Night Funkin' - Codename Engine" main="funkin.backend.system.Main"
-		file="CodenameEngine" packageName="com.yoshman29.codenameengine"
+		title="Friday Night Funkin' Iris Legacy" main="funkin.backend.system.Main"
+		file="Iris" packageName="com.yoshman29.codenameengine"
 		package="com.yoshman29.codenameengine"
 		version="1.0.1" company="Yoshman29" />
 
 	<!--
 		CHANGE THE SAVE PATH & NAME FOR YOUR MOD HERE!
 	-->
-	<haxedef name="SAVE_PATH" value="CodenameEngine"/>
+	<haxedef name="SAVE_PATH" value="Iris"/>
 	<haxedef name="SAVE_NAME" value="save-default"/>
 
-	<haxedef name="SAVE_OPTIONS_PATH" value="CodenameEngine"/>
+	<haxedef name="SAVE_OPTIONS_PATH" value="Iris"/>
 	<haxedef name="SAVE_OPTIONS_NAME" value="options"/>
 
 	<!--Switch Export with Unique ApplicationID and Icon-->
@@ -145,10 +145,10 @@
 
 	<!-- _____________________________ Path Settings ____________________________ -->
 
-	<set name="BUILD_DIR" value="export/debug" if="debug" />
-	<set name="BUILD_DIR" value="export/release" unless="debug" />
-	<set name="BUILD_DIR" value="export/debug-32bit" if="debug 32bit" />
-	<set name="BUILD_DIR" value="export/release-32bit" if="32bit" unless="debug" />
+	<set name="BUILD_DIR" value="export/debug/Iris" if="debug" />
+	<set name="BUILD_DIR" value="export/release/Iris" unless="debug" />
+	<set name="BUILD_DIR" value="export/debug-32bit/Iris" if="debug 32bit" />
+	<set name="BUILD_DIR" value="export/release-32bit/Iris" if="32bit" unless="debug" />
 	<set name="BUILD_DIR" value="latest/" if="beta" />
 
 	<source name="source" />

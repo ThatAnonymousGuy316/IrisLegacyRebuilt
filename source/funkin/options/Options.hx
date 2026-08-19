@@ -39,6 +39,7 @@ class Options
 	public static var betaUpdates:Bool = false;
 	public static var splashesEnabled:Bool = true;
 	@:dox(hide) @:doNotSave public static var hitWindow:Float = 250; // DEPRECATED
+	public static var songScrollSpeed:Float = 0;
 	public static var songOffset:Float = 0;
 	public static var framerate:Int = 120;
 	public static var gpuOnlyBitmaps:Bool = #if (mac || web) false #else true #end; // causes issues on mac and web

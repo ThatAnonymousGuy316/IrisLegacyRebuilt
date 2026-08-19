@@ -35,6 +35,7 @@ import funkin.menus.*;
 import funkin.backend.week.WeekData;
 import funkin.savedata.FunkinSave;
 import haxe.io.Path;
+import flixel.util.FlxStringUtil;
 
 using StringTools;
 
@@ -703,7 +704,10 @@ class PlayState extends MusicBeatState
 		if (SONG == null)
 			SONG = Chart.parse('tutorial', difficulty = 'normal', variation = null);
 
-		scrollSpeed = SONG.scrollSpeed;
+		if (Options.songScrollSpeed != 0)
+			scrollSpeed = Options.songScrollSpeed;
+		else
+			scrollSpeed = SONG.scrollSpeed;
 
 		Conductor.setupSong(SONG);
 
@@ -1386,8 +1390,8 @@ class PlayState extends MusicBeatState
 	private var TEXT_GAME_ACCURACY = TU.getRaw("game.accuracy");
 
 	dynamic function updateRatingStuff() {
-		scoreTxt.text = TEXT_GAME_SCORE.format([songScore]);
-		missesTxt.text = (comboBreaks ? TEXT_GAME_COMBOBREAKS : TEXT_GAME_MISSES).format([misses]);
+		scoreTxt.text = TEXT_GAME_SCORE.format([FlxStringUtil.formatMoney(songScore, false, true)]);
+		missesTxt.text = (comboBreaks ? TEXT_GAME_COMBOBREAKS : TEXT_GAME_MISSES).format([FlxStringUtil.formatMoney(misses, false, true)]);
 
 		if (curRating == null)
 			curRating = new ComboRating(0, "[N/A]", 0xFF888888);
