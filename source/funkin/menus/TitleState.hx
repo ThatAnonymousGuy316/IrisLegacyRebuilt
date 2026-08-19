@@ -1,16 +1,25 @@
 package funkin.menus;
 
 import flixel.group.FlxGroup;
+import flixel.addons.display.FlxBackdrop;
+import flixel.util.FlxAxes;
 import flixel.input.gamepad.FlxGamepad;
 import flixel.util.FlxColor;
 import flixel.util.FlxTimer;
 import flixel.util.typeLimit.OneOfTwo;
+import flixel.tweens.FlxTween;
+import flixel.tweens.FlxEase;
 import funkin.backend.MusicBeatGroup;
 import funkin.backend.utils.XMLUtil;
 import haxe.xml.Access;
 import openfl.Assets;
+import Rescale;
+
 
 using StringTools;
+
+var boyf:FlxBackdrop = new FlxBackdrop();
+var rescalacion:Float = Rescale.getScale();
 
 @:allow(funkin.backend.assets.ModsFolder)
 @:allow(funkin.backend.system.MainState)
@@ -27,6 +36,19 @@ class TitleState extends MusicBeatState
 	override public function create():Void
 	{
 		curWacky = FlxG.random.getObject(getIntroTextShit());
+
+		boyf = new FlxBackdrop();
+		boyf.frames = Paths.getFrames('BoyfSpeen');
+		boyf.y = 500 * rescalacion;
+		boyf.scale.set(rescalacion, rescalacion);
+		boyf.animation.addByPrefix('idle', 'idle', 24, true);
+		boyf.animation.play('idle');
+		boyf.spacing.x = 10000;
+		boyf.repeatAxes = FlxAxes.X;
+		boyf.y = 500;
+		boyf.velocity.set(1500, 0);
+
+		add(boyf);
 
 		MusicBeatState.skipTransIn = true;
 
@@ -55,6 +77,19 @@ class TitleState extends MusicBeatState
 		titleScreenSprites = new MusicBeatGroup();
 		add(titleScreenSprites);
 		loadXML();
+
+		// Retrieve the logo sprite and apply a smooth up-and-down floating tween
+		var logo:FlxSprite = titleSprites.get("logo");
+		if (logo == null) logo = titleSprites.get("logoBump");
+
+		if (logo != null)
+		{
+			var startY:Float = logo.y;
+			FlxTween.tween(logo, {y: startY - 20}, 1.5, {
+				ease: FlxEase.quadInOut,
+				type: PINGPONG
+			});
+		}
 
 		if (titleText == null) {
 			titleText = new FlxSprite(0, FlxG.height * 0.8);
@@ -128,7 +163,7 @@ class TitleState extends MusicBeatState
 		}
 
 		if (pressedEnter && transitioning && skippedIntro) {
-			FlxG.camera.stopFX();// FlxG.camera.visible = false;
+			FlxG.camera.stopFX();
 			goToMainMenu(false);
 		}
 
@@ -150,7 +185,6 @@ class TitleState extends MusicBeatState
 		CoolUtil.playMenuSFX(CONFIRM, 0.7);
 
 		transitioning = true;
-		// FlxG.sound.music.stop();
 
 		new FlxTimer().start(2, (_) -> goToMainMenu(false));
 	}
