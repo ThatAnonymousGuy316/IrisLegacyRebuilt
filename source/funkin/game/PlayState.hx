@@ -8,6 +8,7 @@ import flixel.sound.FlxSound;
 import flixel.text.FlxText;
 import flixel.tweens.FlxTween;
 import flixel.tweens.misc.VarTween;
+import flixel.FlxSprite;
 import flixel.ui.FlxBar;
 import flixel.util.FlxColor;
 import flixel.util.FlxSort;
@@ -47,6 +48,8 @@ class PlayState extends MusicBeatState
 	 * Current PlayState instance.
 	 */
 	public static var instance:PlayState = null;
+
+	
 
 	/**
 	 * SONG DATA (Chart, Metadata).
@@ -946,6 +949,10 @@ class PlayState extends MusicBeatState
 			SaveWarning.selectionClass = CharterSelection;
 			SaveWarning.warningFunc = saveWarn;
 			SaveWarning.saveFunc = () -> Charter.saveEverything(false);
+
+			// Example usage with a loaded sprite or HealthIcon
+			var iconSprite:FlxSprite = new FlxSprite().loadGraphic(Paths.image("icons/icon-bf"));
+			Main.setWindowColorFromIcon(iconSprite.pixels);
 		}
 	}
 

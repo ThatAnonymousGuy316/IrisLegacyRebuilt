@@ -19,6 +19,7 @@ import funkin.options.PlayerSettings;
 import openfl.Assets;
 import openfl.Lib;
 import openfl.display.Sprite;
+import openfl.display.BitmapData;
 import openfl.text.TextFormat;
 import openfl.utils.AssetLibrary;
 import sys.FileSystem;
@@ -28,6 +29,13 @@ import android.content.Context;
 import android.os.Build;
 #end
 
+#if (cpp && windows)
+@:headerCode('
+    #include <windows.h>
+    #include <dwmapi.h>
+    #pragma comment(lib, "dwmapi.lib")
+')
+#end
 class Main extends Sprite
 {
 	public static var instance:Main;
@@ -42,20 +50,15 @@ class Main extends Sprite
 	public static var framerateSprite:Framerate;
 	#end
 
-	var gameWidth:Int = 1280; // Width of the game in pixels (might be less / more in actual pixels).
-	var gameHeight:Int = 720; // Height of the game in pixels (might be less / more in actual pixels).
-	var skipSplash:Bool = true; // Whether to skip the flixel splash screen that appears in release mode.
-	var startFullscreen:Bool = false; // Whether to start the game in fullscreen on desktop targets
+	var gameWidth:Int = 1280; 
+	var gameHeight:Int = 720; 
+	var skipSplash:Bool = true; 
+	var startFullscreen:Bool = false; 
 
 	public static var game:FunkinGame;
 
-	/**
-	 * The time since the game was focused last time in seconds.
-	 */
 	public static var timeSinceFocus(get, never):Float;
 	public static var time:Int = 0;
-
-	// You can pretty much ignore everything from here on - your code should go in your states.
 
 	public static function preInit() {
 		funkin.backend.utils.NativeAPI.registerAsDPICompatible();
@@ -77,7 +80,6 @@ class Main extends Sprite
 		addChild(framerateSprite = new Framerate());
 		SystemInfo.init();
 		#end
-
 	}
 
 	@:dox(hide)
@@ -93,7 +95,6 @@ class Main extends Sprite
 		#end;
 	public static var startedFromSource:Bool = #if TEST_BUILD true #else false #end;
 
-	// DEPRECATED
 	@:dox(hide) public static function execAsync(func:Void->Void) ThreadUtil.execAsync(func);
 
 	private static function getTimer():Int {
@@ -158,6 +159,58 @@ class Main extends Sprite
 		initTransition();
 	}
 
+	/**
+	 * Calculates average color from non-transparent pixels in an icon BitmapData
+	 * and applies it to the Windows title bar.
+	 * @param bitmap The icon's BitmapData object.
+	 */
+	public static function setWindowColorFromIcon(bitmap:BitmapData):Void
+	{
+		#if (cpp && windows)
+		if (bitmap == null) return;
+
+		var totalR:Float = 0;
+		var totalG:Float = 0;
+		var totalB:Float = 0;
+		var count:Int = 0;
+
+		// Calculate average RGB values across non-transparent pixels
+		for (x in 0...bitmap.width)
+		{
+			for (y in 0...bitmap.height)
+			{
+				var pixel:Int = bitmap.getPixel32(x, y);
+				var alpha:Int = (pixel >> 24) & 0xFF;
+
+				if (alpha > 50)
+				{
+					totalR += (pixel >> 16) & 0xFF;
+					totalG += (pixel >> 8) & 0xFF;
+					totalB += pixel & 0xFF;
+					count++;
+				}
+			}
+		}
+
+		if (count > 0)
+		{
+			var avgR:Int = Std.int(totalR / count);
+			var avgG:Int = Std.int(totalG / count);
+			var avgB:Int = Std.int(totalB / count);
+
+			// Direct native C++ call to update title bar color on Windows
+			untyped __cpp__('
+				HWND hwnd = GetActiveWindow();
+				if (hwnd != NULL) {
+					COLORREF color = RGB({0}, {1}, {2});
+					// 35 corresponds to DWMWA_CAPTION_COLOR in Windows 11 DWM API
+					DwmSetWindowAttribute(hwnd, 35, &color, sizeof(color));
+				}
+			', avgR, avgG, avgB);
+		}
+		#end
+	}
+
 	public static function refreshAssets() @:privateAccess {
 		FunkinCache.instance.clearSecondLayer();
 
@@ -204,11 +257,7 @@ class Main extends Sprite
 	}
 
 	private static function onStateSwitchPost() {
-		// manual asset clearing since base openfl one does'nt clear lime one
-		// does'nt clear bitmaps since flixel fork does it auto
-
 		@:privateAccess {
-			// clear uint8 pools
 			for(length=>pool in openfl.display3D.utils.UInt8Buff._pools) {
 				for(b in pool.clear())
 					b.destroy();

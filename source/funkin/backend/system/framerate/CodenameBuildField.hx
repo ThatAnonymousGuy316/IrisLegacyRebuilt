@@ -14,7 +14,7 @@ class CodenameBuildField extends TextField {
 
 	public function reload() {
 		#if COMPILE_EXPERIMENTAL
-		text = '${Flags.VERSION_MESSAGE} (Experimental Build)';
+		text = '${Flags.VERSION_MESSAGE} (Indev Build :D)';
 		#else
 		text = '${Flags.VERSION_MESSAGE}';
 		#end

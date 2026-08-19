@@ -28,6 +28,11 @@ class EditorPicker extends MusicBeatSubstate {
 			id: "alphabet",
 			state: funkin.editors.alphabet.AlphabetSelection
 		},
+		{
+			name: "Main Menu Editor",
+			id: "stage",
+			state: funkin.menus.MainMenuState
+		},
 		#if (debug || debug_ui)
 		{
 			name: "UI Debug State",
