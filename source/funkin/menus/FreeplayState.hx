@@ -281,7 +281,7 @@ class FreeplayState extends MusicBeatState
 							FlxG.log.error('Could not find a Sound asset with an ID of \'$soundPath\'.');
 
 						if (sound != null && autoplayShouldPlay) {
-							FlxG.sound.playMusic(sound, 0);
+							//FlxG.sound.playMusic(sound, 0);
 							Conductor.changeBPM(curSong.bpm, curSong.beatsPerMeasure, curSong.stepsPerBeat);
 						}
 					}
