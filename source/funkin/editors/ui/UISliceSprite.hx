@@ -19,10 +19,17 @@ class UISliceSprite extends UISprite {
 
 	public override function updateButton() {
 		if (incorporeal) return;
-		__rect.set(x, y, bWidth, bHeight);
-		UIState.state.updateRectButtonHandler(this, __rect, onHovered);
+		
+		// Ensure __rect exists before trying to set its properties
+		if (__rect != null) {
+			__rect.set(x, y, bWidth, bHeight);
+		}
+		
+		// Null check: Only run the button handler if UIState.state is currently active
+		if (UIState.state != null && __rect != null) {
+			UIState.state.updateRectButtonHandler(this, __rect, onHovered);
+		}
 	}
-
 	public function resize(w:Int, h:Int) {
 		bWidth = w;
 		bHeight = h;

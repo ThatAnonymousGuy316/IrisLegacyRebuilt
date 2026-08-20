@@ -37,20 +37,25 @@ class UITextBox extends UISliceSprite implements IUIFocusable {
 	var cacheRect:Rectangle = new Rectangle();
 
 	public override function update(elapsed:Float) {
-		if (selectable && hovered && FlxG.mouse.justReleased && __lastDrawCameras.length > 0) {
+		// 1. Add null check for camera array
+		if (selectable && hovered && FlxG.mouse.justReleased && __lastDrawCameras != null && __lastDrawCameras.length > 0) {
 			// get caret pos
 			var pos = FlxG.mouse.getScreenPosition(__lastDrawCameras[0], FlxPoint.get());
-			pos.x -= label.x;
-			pos.y -= label.y;
+			
+			// 2. Add null checks for the label and its textField
+			if (label != null) {
+				pos.x -= label.x;
+				pos.y -= label.y;
 
-			if (pos.x < 0)
-				position = 0;
-			else {
-				var index = label.textField.getCharIndexAtPoint(pos.x, pos.y);
-				if (index > -1)
-					position = index;
-				else
-					position = label.text.length;
+				if (pos.x < 0) {
+					position = 0;
+				} else if (label.textField != null) {
+					var index = label.textField.getCharIndexAtPoint(pos.x, pos.y);
+					if (index > -1)
+						position = index;
+					else
+						position = label.text.length;
+				}
 			}
 
 			pos.put();
@@ -58,7 +63,19 @@ class UITextBox extends UISliceSprite implements IUIFocusable {
 
 		super.update(elapsed);
 
-		var selected = selectable && focused;
+		// 3. SAFEGUARD: Stop updating if label doesn't exist
+		if (label == null) return;
+
+		// 4. SAFELY check 'focused' without crashing if UIState is missing
+		var isFocused:Bool = false;
+		if (UIState.state != null) {
+			try {
+				isFocused = focused;
+			} catch(e:Dynamic) {}
+		}
+
+		var selected = selectable && isFocused;
+		
 		if (autoAlpha) {
 			if (selectable) {
 				alpha = label.alpha = 1;
@@ -67,11 +84,19 @@ class UITextBox extends UISliceSprite implements IUIFocusable {
 			}
 		}
 
+		// 5. Safe width check for textField
+		var textWidth:Float = 0;
+		if (label.textField != null) {
+			textWidth = label.textField.width;
+		}
+
 		var off = multiline ? 4 : ((bHeight - label.height) / 2);
-		label.follow(this, label.autoSize ? (bWidth - label.textField.width) / 2 : 4, off);
+		label.follow(this, label.autoSize ? (bWidth - textWidth) / 2 : 4, off);
 		framesOffset = (selected ? 18 : (hovered ? 9 : 0));
+		
 		@:privateAccess {
-			if (selected) {
+			// 6. Check caretSpr and textField before processing typing visuals
+			if (selected && caretSpr != null && label.textField != null) {
 				__wasFocused = true;
 				caretSpr.alpha = (FlxG.game.ticks % 666) >= 333 ? 1 : 0;
 
@@ -95,11 +120,10 @@ class UITextBox extends UISliceSprite implements IUIFocusable {
 					if (onChange != null)
 						onChange(label.text);
 				}
-				caretSpr.alpha = 0;
+				if (caretSpr != null) caretSpr.alpha = 0;
 			}
 		}
 	}
-
 	private static var seperators:Array<String> = [
 		" ", "\n", "\t", "\r", "-", "_", "=", "+", "/", "\\", "|", ",", ".", ";", ":", "!", "?", "@", "#", "$", "%", "^", "&", "*", "(", ")", "[", "]", "{",
 		"}",

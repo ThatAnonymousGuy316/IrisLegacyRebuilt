@@ -129,6 +129,7 @@
 
 	<haxelib name="flixel" />
 	<haxelib name="flixel-addons" />
+	<define name="HXCPP_COMPILE_THREADS" value="2" />
 
 	<haxelib name="hxWebSockets" />
 

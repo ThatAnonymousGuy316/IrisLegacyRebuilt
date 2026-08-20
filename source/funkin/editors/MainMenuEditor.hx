@@ -9,7 +9,6 @@ import flixel.util.FlxColor;
 import flixel.util.FlxTimer;
 import flixel.tweens.FlxTween;
 import flixel.addons.display.FlxBackdrop;
-import flixel.addons.ui.FlxInputText;
 import haxe.Json;
 import openfl.utils.Assets;
 
@@ -21,6 +20,7 @@ import sys.io.File;
 import funkin.options.Options;
 import funkin.editors.substates.HELPSubState;
 import funkin.editors.substates.ResetSubstate;
+import funkin.editors.ui.UITextBox;
 
 using StringTools;
 
@@ -89,13 +89,13 @@ class MainMenuEditor extends MusicBeatState
 	var autoSaveText:FlxText;
 	var autoSaveTimer:FlxTimer;
 
-	// Text Input Controls
-	var bgPathInput:FlxInputText;
+	// Codename Native UI Controls
+	var bgPathInput:UITextBox;
 	var loadBgBtn:FlxButton;
 
-	var btnNameInput:FlxInputText;
-	var idleAnimInput:FlxInputText;
-	var selectedAnimInput:FlxInputText;
+	var btnNameInput:UITextBox;
+	var idleAnimInput:UITextBox;
+	var selectedAnimInput:UITextBox;
 	var addButtonBtn:FlxButton;
 
 	override public function create()
@@ -169,7 +169,6 @@ class MainMenuEditor extends MusicBeatState
 		checkeredBg.visible = false;
 		add(checkeredBg);
 
-		// Editor Panel Container
 		editorPanelBG = new FlxSprite(10, 10).makeGraphic(530, 260, FlxColor.BLACK);
 		editorPanelBG.alpha = 0.6;
 		editorPanelBG.scrollFactor.set();
@@ -212,10 +211,11 @@ class MainMenuEditor extends MusicBeatState
 		});
 
 		// Dynamic Background Loader Controls
-		bgPathInput = new FlxInputText(15, 100, 150, menuJson.background != null ? menuJson.background : "menuBG", 14);
+		bgPathInput = new UITextBox(15, 100, menuJson.background != null ? menuJson.background : "menuBG", 150, 20);
 		loadBgBtn = new FlxButton(175, 100, "Load BG", function() {
-			if (bgPathInput.text != null && bgPathInput.text.trim() != "") {
-				var newBgKey:String = bgPathInput.text.trim();
+			var labelText:String = bgPathInput.label.text;
+			if (labelText != null && labelText.trim() != "") {
+				var newBgKey:String = labelText.trim();
 				bg.loadGraphic(Paths.image(newBgKey));
 				menuJson.background = newBgKey;
 				bg.setGraphicSize(Std.int(bg.width * 1.175));
@@ -224,9 +224,9 @@ class MainMenuEditor extends MusicBeatState
 		});
 
 		// Button Creator Controls
-		btnNameInput = new FlxInputText(15, 150, 120, "button_name", 14);
-		idleAnimInput = new FlxInputText(145, 150, 120, "idle prefix", 14);
-		selectedAnimInput = new FlxInputText(275, 150, 120, "selected prefix", 14);
+		btnNameInput = new UITextBox(15, 150, "button_name", 120, 20);
+		idleAnimInput = new UITextBox(145, 150, "idle prefix", 120, 20);
+		selectedAnimInput = new UITextBox(275, 150, "selected prefix", 120, 20);
 
 		addButtonBtn = new FlxButton(405, 150, "Add Button", function() {
 			addNewButton();
@@ -261,13 +261,13 @@ class MainMenuEditor extends MusicBeatState
 
 	function addNewButton()
 	{
-		var name:String = btnNameInput.text.trim();
+		var name:String = btnNameInput.label.text.trim();
 		if (name == "" || name == "button_name") return;
 
-		var idle:String = idleAnimInput.text.trim();
+		var idle:String = idleAnimInput.label.text.trim();
 		if (idle == "" || idle == "idle prefix") idle = name + " basic";
 
-		var selected:String = selectedAnimInput.text.trim();
+		var selected:String = selectedAnimInput.label.text.trim();
 		if (selected == "" || selected == "selected prefix") selected = name + " white";
 
 		var newOpt:OptionDataJson = {
