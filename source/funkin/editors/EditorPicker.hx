@@ -30,7 +30,7 @@ class EditorPicker extends MusicBeatSubstate {
 		},
 		{
 			name: "Main Menu Editor",
-			id: "stage",
+			id: "uiDebug",
 			state: funkin.editors.MainMenuEditor
 		},
 		#if (debug || debug_ui)
