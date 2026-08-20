@@ -48,6 +48,8 @@ typedef MenuEditAction = {
 	var x:Float;
 	var y:Float;
 	var goesToState:Bool;
+	@:optional var idleAnim:String;
+	@:optional var selectedAnim:String;
 }
 
 class MainMenuEditor extends MusicBeatState
@@ -89,7 +91,6 @@ class MainMenuEditor extends MusicBeatState
 	var autoSaveText:FlxText;
 	var autoSaveTimer:FlxTimer;
 
-	// Codename Native UI Controls
 	var bgPathInput:UITextBox;
 	var loadBgBtn:FlxButton;
 
@@ -97,6 +98,8 @@ class MainMenuEditor extends MusicBeatState
 	var idleAnimInput:UITextBox;
 	var selectedAnimInput:UITextBox;
 	var addButtonBtn:FlxButton;
+
+	var currentTextBox:UITextBox = null;
 
 	override public function create()
 	{
@@ -179,7 +182,6 @@ class MainMenuEditor extends MusicBeatState
 
 		rebuildMenuItems();
 
-		// Action Buttons
 		allowBackgroundMove = new FlxButton(15, 20, "BG Move", function() {
 			canBackgroundMove = !canBackgroundMove;
 			canMenuItemMove = false;
@@ -210,7 +212,6 @@ class MainMenuEditor extends MusicBeatState
 			openSubState(new ResetSubstate(this));
 		});
 
-		// Dynamic Background Loader Controls
 		bgPathInput = new UITextBox(15, 100, menuJson.background != null ? menuJson.background : "menuBG", 150, 20);
 		loadBgBtn = new FlxButton(175, 100, "Load BG", function() {
 			var labelText:String = bgPathInput.label.text;
@@ -223,7 +224,6 @@ class MainMenuEditor extends MusicBeatState
 			}
 		});
 
-		// Button Creator Controls
 		btnNameInput = new UITextBox(15, 150, "button_name", 120, 20);
 		idleAnimInput = new UITextBox(145, 150, "idle prefix", 120, 20);
 		selectedAnimInput = new UITextBox(275, 150, "selected prefix", 120, 20);
@@ -278,6 +278,18 @@ class MainMenuEditor extends MusicBeatState
 			idleAnim: idle,
 			selectedAnim: selected
 		};
+
+		var action:MenuEditAction = {
+			index: menuJson.options.length,
+			name: name,
+			x: newOpt.x,
+			y: newOpt.y,
+			goesToState: newOpt.goesToState,
+			idleAnim: idle,
+			selectedAnim: selected
+		};
+		undoStack.push(action);
+		redoStack = [];
 
 		menuJson.options.push(newOpt);
 		optionShit.push(name);
@@ -356,6 +368,56 @@ class MainMenuEditor extends MusicBeatState
 	{
 		super.update(elapsed);
 
+		if (FlxG.mouse.justPressed)
+		{
+			var boxes:Array<UITextBox> = [bgPathInput, btnNameInput, idleAnimInput, selectedAnimInput];
+			var clickedBox:Bool = false;
+
+			for (box in boxes)
+			{
+				if (box != null && FlxG.mouse.overlaps(box))
+				{
+					clickedBox = true;
+					if (currentTextBox != box)
+					{
+						if (currentTextBox != null) currentTextBox.focused = false;
+						currentTextBox = box;
+						currentTextBox.focused = true;
+					}
+					break;
+				}
+			}
+
+			if (!clickedBox && currentTextBox != null)
+			{
+				currentTextBox.focused = false;
+				currentTextBox = null;
+			}
+		}
+
+		if (currentTextBox != null && currentTextBox.focused)
+		{
+			var dummyMod:lime.ui.KeyModifier = cast { shiftKey: false, ctrlKey: false, altKey: false, metaKey: false, numLock: false, capsLock: false };
+
+			if (FlxG.keys.justPressed.BACKSPACE) currentTextBox.onKeyDown(BACKSPACE, dummyMod);
+			if (FlxG.keys.justPressed.DELETE) currentTextBox.onKeyDown(DELETE, dummyMod);
+			if (FlxG.keys.justPressed.LEFT) currentTextBox.onKeyDown(LEFT, dummyMod);
+			if (FlxG.keys.justPressed.RIGHT) currentTextBox.onKeyDown(RIGHT, dummyMod);
+			if (FlxG.keys.justPressed.ENTER) {
+				currentTextBox.onKeyDown(RETURN, dummyMod);
+				currentTextBox.focused = false;
+				currentTextBox = null;
+			}
+			
+			if (FlxG.keys.pressed.CONTROL)
+			{
+				dummyMod.ctrlKey = true;
+				if (FlxG.keys.justPressed.C) currentTextBox.onKeyDown(C, dummyMod);
+				if (FlxG.keys.justPressed.V) currentTextBox.onKeyDown(V, dummyMod);
+				if (FlxG.keys.justPressed.X) currentTextBox.onKeyDown(X, dummyMod);
+			}
+		}
+
 		handleBackgroundDragging();
 		handleMenuItemDragging();
 		handleMenuItemRemoval();
@@ -424,7 +486,9 @@ class MainMenuEditor extends MusicBeatState
 						name: opt.name,
 						x: opt.x,
 						y: opt.y,
-						goesToState: opt.goesToState
+						goesToState: opt.goesToState,
+						idleAnim: opt.idleAnim,
+						selectedAnim: opt.selectedAnim
 					};
 					undoStack.push(action);
 					redoStack = [];
@@ -455,19 +519,17 @@ class MainMenuEditor extends MusicBeatState
 				name: action.name,
 				x: action.x,
 				y: action.y,
-				goesToState: action.goesToState
+				goesToState: action.goesToState,
+				idleAnim: action.idleAnim,
+				selectedAnim: action.selectedAnim
 			};
 
-			if (action.index <= menuJson.options.length)
-			{
-				menuJson.options.insert(action.index, optData);
-				optionShit.insert(action.index, action.name);
-			}
-			else
-			{
-				menuJson.options.push(optData);
-				optionShit.push(action.name);
-			}
+			var targetIndex = action.index;
+			if (targetIndex > menuJson.options.length)
+				targetIndex = menuJson.options.length;
+
+			menuJson.options.insert(targetIndex, optData);
+			optionShit.insert(targetIndex, action.name);
 
 			rebuildMenuItems();
 		}
@@ -480,22 +542,37 @@ class MainMenuEditor extends MusicBeatState
 			var action = redoStack.pop();
 			undoStack.push(action);
 
-			if (action.index < menuJson.options.length && menuJson.options[action.index].name == action.name)
+			var foundIndex:Int = -1;
+			for (i in 0...menuJson.options.length)
 			{
-				menuJson.options.splice(action.index, 1);
-				optionShit.splice(action.index, 1);
+				if (menuJson.options[i].name == action.name)
+				{
+					foundIndex = i;
+					break;
+				}
+			}
+
+			if (foundIndex != -1)
+			{
+				menuJson.options.splice(foundIndex, 1);
+				optionShit.splice(foundIndex, 1);
 			}
 			else
 			{
-				for (i in 0...menuJson.options.length)
-				{
-					if (menuJson.options[i].name == action.name)
-					{
-						menuJson.options.splice(i, 1);
-						optionShit.splice(i, 1);
-						break;
-					}
-				}
+				var optData = {
+					name: action.name,
+					x: action.x,
+					y: action.y,
+					goesToState: action.goesToState,
+					idleAnim: action.idleAnim,
+					selectedAnim: action.selectedAnim
+				};
+				var targetIndex = action.index;
+				if (targetIndex > menuJson.options.length)
+					targetIndex = menuJson.options.length;
+
+				menuJson.options.insert(targetIndex, optData);
+				optionShit.insert(targetIndex, action.name);
 			}
 
 			rebuildMenuItems();
