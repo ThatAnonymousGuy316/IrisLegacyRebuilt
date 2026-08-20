@@ -1,0 +1,12 @@
+<!DOCTYPE codename-engine-character>
+<character x="60" y="160" sprite="Iris_FNF_assetss" flipX="true" centercam="true" isPlayer="true">
+	<anim name="idle" anim="idle"/>
+	<anim name="singDOWN" anim="down0" y="8"/>
+	<anim name="singRIGHT" anim="right0" y="7"/>
+	<anim name="singLEFT" anim="left0" x="34" y="6"/>
+	<anim name="singUP" anim="up0" x="5" y="15"/>
+	<anim name="singUPmiss" anim="up miss" y="15"/>
+	<anim name="singDOWNmiss" anim="down miss" x="4" y="5"/>
+	<anim name="singLEFTmiss" anim="left miss" x="35" y="6"/>
+	<anim name="singRIGHTmiss" anim="right miss" x="-20" y="9"/>
+</character>

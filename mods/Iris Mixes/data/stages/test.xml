@@ -1,0 +1,11 @@
+<!DOCTYPE codename-engine-stage>
+<stage startCamPosX="1000" example="value" startCamPosY="600" folder="stages/default/" zoom="0.9" name="stage">
+	<sprite x="-500" updateHitbox="true" sprite="stagefront" y="100" scale="0.75" name="normBG"/>
+	<sprite x="-500" sprite="stagefront" y="300" scale="0.75" name="noUpdateHitbox"/>
+	<sprite x="-500" updateHitbox="true" sprite="stagefront" y="700" scale="0.75" angle="37" name="ro-tat-ay"/>
+	<unknown-sprite/>
+	<unknown-sprite-1-attr name="test"/>
+	<girlfriend/>
+	<dad/>
+	<boyfriend/>
+</stage>

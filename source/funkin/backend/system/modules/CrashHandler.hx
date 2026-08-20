@@ -8,6 +8,18 @@ import openfl.events.ErrorEvent;
 import openfl.events.UncaughtErrorEvent;
 
 final class CrashHandler {
+	public static var crashMessages:Array<String> = [
+		"Diddy touches me at night pls help :cold_sweat:", 
+		'Ztickynote Is Gay', 
+		'I Love Soulwuz', 
+		"ButtSex", 
+		'if you got this crash message YOURE FUCKING DEAD', 
+		'FUCK!', 
+		'Red Guys Codename Course, if you find this message, red guy will skin you',
+		'Lildoctor809 says "I FUCKING HATE YOU"',
+		'According to ancient Japanese legend, If you connect your top lip to your bottom lip you gain a new experience in learning how to shut the fuck up.'
+	];
+
 	public static function init() {
 		Lib.current.loaderInfo.uncaughtErrorEvents.addEventListener(UncaughtErrorEvent.UNCAUGHT_ERROR, onUncaughtError);
 		#if cpp
@@ -51,7 +63,7 @@ final class CrashHandler {
 		e.stopPropagation();
 		e.stopImmediatePropagation();
 
-		NativeAPI.showMessageBox("Diddy touches me at night pls help :cold_sweat:", 'Uh Oh Stinkyy:$m\n\n$stackLabel', MSG_ERROR);
+		NativeAPI.showMessageBox(FlxG.random.getObject(crashMessages), 'Uh Oh Stinkyy:$m\n\n$stackLabel', MSG_ERROR);
 		#if sys
 		Sys.exit(1);
 		#end
