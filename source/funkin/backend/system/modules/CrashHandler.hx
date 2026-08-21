@@ -17,14 +17,23 @@ final class CrashHandler {
 		'FUCK!', 
 		'Red Guys Codename Course, if you find this message, red guy will skin you',
 		'Lildoctor809 says "I FUCKING HATE YOU"',
-		'According to ancient Japanese legend, If you connect your top lip to your bottom lip you gain a new experience in learning how to shut the fuck up.'
+		'According to ancient Japanese legend, If you connect your top lip to your bottom lip you gain a new experience in learning how to shut the fuck up.',
+		'I love anal sex',
+		'Go Pissco',
+		'Go Pico, Stop Pico',
+		"KadeMeme Says I'm a Traumatized Guy",
+		'stop pico no no stop pico uh',
+		'piss code on',
+		'wd gaster in deltarune built it all from in emptFUCK IT CRASHED'
 	];
 
 	public static var gayMessages:Array<String> = [
 		'Uh Oh Stinkyy',
 		'You Got A Fucking',
 		'Fuck You',
-		'ZtickyNote Says'
+		'ZtickyNote Says',
+		'Anal Sex',
+		'Traumatized Guy Says'
 	];
 
 	public static function init() {
