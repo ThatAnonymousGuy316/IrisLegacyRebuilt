@@ -10,14 +10,30 @@ import openfl.events.UncaughtErrorEvent;
 final class CrashHandler {
 	public static var crashMessages:Array<String> = [
 		"Diddy touches me at night pls help :cold_sweat:", 
-		'Ztickynote Is Gay', 
+		'ZtickyNote Says Hi :)', 
 		'I Love Soulwuz', 
 		"ButtSex", 
 		'if you got this crash message YOURE FUCKING DEAD', 
 		'FUCK!', 
 		'Red Guys Codename Course, if you find this message, red guy will skin you',
 		'Lildoctor809 says "I FUCKING HATE YOU"',
-		'According to ancient Japanese legend, If you connect your top lip to your bottom lip you gain a new experience in learning how to shut the fuck up.'
+		'According to ancient Japanese legend, If you connect your top lip to your bottom lip you gain a new experience in learning how to shut the fuck up.',
+		'I love anal sex',
+		'Go Pissco',
+		'Go Pico, Stop Pico',
+		"KadeMeme Says I'm a Traumatized Guy",
+		'stop pico no no stop pico uh',
+		'piss code on',
+		'wd gaster in deltarune built it all from in emptFUCK IT CRASHED'
+	];
+
+	public static var gayMessages:Array<String> = [
+		'Uh Oh Stinkyy',
+		'You Got A Fucking',
+		'Fuck You',
+		'ZtickyNote Says',
+		'Anal Sex',
+		'Traumatized Guy Says'
 	];
 
 	public static function init() {
@@ -63,7 +79,7 @@ final class CrashHandler {
 		e.stopPropagation();
 		e.stopImmediatePropagation();
 
-		NativeAPI.showMessageBox(FlxG.random.getObject(crashMessages), 'Uh Oh Stinkyy:$m\n\n$stackLabel', MSG_ERROR);
+		NativeAPI.showMessageBox(FlxG.random.getObject(crashMessages), '${FlxG.random.getObject(gayMessages)}: $m\n\n$stackLabel', MSG_ERROR);
 		#if sys
 		Sys.exit(1);
 		#end
