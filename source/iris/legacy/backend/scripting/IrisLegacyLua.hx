@@ -58,7 +58,8 @@ class IrisLegacyLua
     {
         set('Function_Stop', Function_Stop);
 		set('Function_Continue', Function_Continue);
-
+		set('screenWidth', FlxG.width);
+		set('screenHeight', FlxG.height);
         set('require', false);
 		set('os', false);
     }
