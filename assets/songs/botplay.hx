@@ -4,6 +4,24 @@ import flixel.math.FlxBasePoint;
 
 var botplayTxts:Array<FlxText> = [];
 static var curBotplay:Bool = false;
+public static var crashMessages:Array<String> = [
+		"Diddy touches me at night pls help :cold_sweat:", 
+		'ZtickyNote Says Hi :)', 
+		'I Love Soulwuz', 
+		"ButtSex", 
+		'FUCK!', 
+		'Red Guys Codename Course, if you find this message, red guy will skin you',
+		'Lildoctor809 says "I FUCKING HATE YOU"',
+		'According to ancient Japanese legend, If you connect your top lip to your bottom lip you gain a new experience in learning how to shut the fuck up.',
+		'I love anal sex',
+		'Go Pissco',
+		'Go Pico, Stop Pico',
+		"KadeMeme Says I'm a Traumatized Guy",
+		'stop pico no no stop pico uh',
+		'piss code on',
+		'wd gaster in deltarune built it all from in emptFUCK IT CRASHED'
+	];
+
 curBotplay = false;
 
 function postCreate() {
