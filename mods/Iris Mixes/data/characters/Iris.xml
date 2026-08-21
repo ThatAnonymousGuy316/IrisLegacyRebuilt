@@ -1,5 +1,5 @@
 <!DOCTYPE codename-engine-character>
-<character x="60" y="160" sprite="Iris_FNF_assetss" flipX="true" centercam="true" isPlayer="true">
+<character x="60" y="160" sprite="Iris_FNF_assetss" flipX="true" centercam="true" isPlayer="true" color="#FFD8C4">
 	<anim name="idle" anim="idle"/>
 	<anim name="singDOWN" anim="down0" y="8"/>
 	<anim name="singRIGHT" anim="right0" y="7"/>
