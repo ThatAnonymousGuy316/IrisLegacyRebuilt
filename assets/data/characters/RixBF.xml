@@ -1,0 +1,12 @@
+<!DOCTYPE codename-engine-character>
+<character y="340" sprite="reskins/rix" flipX="true" isPlayer="true" icon="bf" color="#30B0D1">
+	<anim name="idle" anim="BF idle dance" loop="true"/>
+	<anim name="singDOWN" anim="BF NOTE DOWN0" x="-15" y="-55"/>
+	<anim name="singRIGHT" anim="BF NOTE RIGHT0" x="-30" y="-5"/>
+	<anim name="singLEFT" anim="BF NOTE LEFT0" x="35" y="3"/>
+	<anim name="singUP" anim="BF NOTE UP0" x="-26" y="38"/>
+	<anim name="singDOWNmiss" anim="BF NOTE DOWN MISS" x="-15" y="-10"/>
+	<anim name="singRIGHTmiss" anim="BF NOTE RIGHT MISS" x="-25" y="25"/>
+	<anim name="singLEFTmiss" anim="BF NOTE LEFT MISS" x="35" y="3"/>
+	<anim name="singUPmiss" anim="BF NOTE UP MISS" x="-16" y="43"/>
+</character>

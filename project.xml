@@ -144,6 +144,7 @@
 	<haxelib name="markdown" />
 	<haxelib name="hxcpp-debug-server" if="TEST_BUILD debug" />
 	<haxelib name="hxWindowColorMode"/>
+	<haxelib name="linc_luajit" />
 
 	<!-- _____________________________ Path Settings ____________________________ -->
 

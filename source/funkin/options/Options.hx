@@ -18,8 +18,9 @@ class Options
 	private static var __eventAdded = false;
 
 	/**
-	 * SETTINGS
-	 */
+		SETTINGS
+	*/
+	public static var currentSkin = "Default";
 	public static var naughtyness:Bool = true;
 	public static var downscroll:Bool = false;
 	public static var ghostTapping:Bool = true;
